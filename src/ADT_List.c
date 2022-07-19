@@ -3,14 +3,15 @@
 //
 #include "ADT_List.h"
 
-#if USE_SEQUENTIAL_LIST
+#if USE_ADT_LIST_WAYS == USE_SEQUENTIAL_LIST
 
 /*顺序表顺序存储*/
 void CreatSequentialList(SqList *iList, int len)
 {
     int i = 0;
+    time_t _time;
 
-    srand(time(NULL));
+    srand(time(&_time));
     memset(iList->data,0, sizeof(iList->data));
     for (i = 0; i < len; i++)
     {
@@ -62,7 +63,7 @@ void SequentialList_FunctionTest(void)
 
 #endif
 
-#if USE_MALLOC_LIST
+#if USE_ADT_LIST_WAYS == USE_MALLOC_LIST
 
 bool InitList(sList** iList)
 {
@@ -131,6 +132,7 @@ void ListInsertHead(sList **iList, int iPosition, int element)
 void CreateListHead(sList **iList, int num)
 {
     int i = 0;
+    time_t _time;
     sList *new_node = NULL;
 
     if(num <= 0)
@@ -139,7 +141,7 @@ void CreateListHead(sList **iList, int num)
         return;
     }
 
-    srand(time(NULL));
+    srand(time(&_time));
 
     (*iList) = (sList *) malloc(sizeof(sList));
     memset(*iList, 0, sizeof(sList));
@@ -160,6 +162,7 @@ void CreateListHead(sList **iList, int num)
 void CreateListTail(sList **iList,int num)
 {
     int i=0;
+    time_t _time;
     sList *new_node = NULL, *current_point = NULL;
 
     if(num <= 0)
@@ -168,7 +171,7 @@ void CreateListTail(sList **iList,int num)
         return;
     }
 
-    srand(time(NULL));
+    srand(time(&_time));
 
     (*iList) = (sList *) malloc(sizeof(sList));
     memset(*iList, 0, sizeof(sList));
@@ -459,7 +462,7 @@ void MallocList_FunctionTest(void)
 
 #endif
 
-#if USE_CYCLE_LIST
+#if USE_ADT_LIST_WAYS == USE_CYCLE_LIST
 
 static sList *head=NULL,*rear=NULL;
 
@@ -578,6 +581,7 @@ void CycleListDelete(sList** iList,int iPosition,int* element)
 
 void CreatCycleList(sList** iList,int num)
 {
+    time_t _time;
     sList *new_node = NULL, *current_node = NULL;
 
     if(num <= 0)
@@ -594,7 +598,7 @@ void CreatCycleList(sList** iList,int num)
             return;
     }
 
-    srand(time(NULL));
+    srand(time(&_time));
 
     current_node = *iList;
 
@@ -679,7 +683,7 @@ void CycleList_FunctionTest(void)
 
 #endif
 
-#if USE_DOUBLE_LIST
+#if USE_ADT_LIST_WAYS == USE_DOUBLE_LIST
 
 static bool InitDoubleList(sDoubleList** iList)
 {
@@ -889,7 +893,7 @@ void DoubleList_FunctionTest(void)
 
 #endif
 
-#if USE_STATIC_LIST
+#if USE_ADT_LIST_WAYS == USE_STATIC_LIST
 
 void InitStaticLinkList(StaticLinkList space)
 {
@@ -908,6 +912,7 @@ void CreatStaticList(StaticLinkList space, int num)
 {
     int i;
     int Idle_index;
+    time_t _time;
 
     if (num < 1 || num >= STATIC_MAX_SIZE)
     {
@@ -915,7 +920,7 @@ void CreatStaticList(StaticLinkList space, int num)
         return;
     }
 
-    srand(time(NULL));
+    srand(time(&_time));
 
     for (i = 0; i < num; ++i)
     {

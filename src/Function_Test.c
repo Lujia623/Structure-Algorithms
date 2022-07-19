@@ -39,6 +39,20 @@ void Function_Test(void)
 //    Tower_of_Hanoi(4,'A','B','C');
     int index = Index_KMP(S,T,0);
     printf("index:%d\n",index);
+#if USE_ADT_TREE_WAYS == BINARY_TREE
+    BinaryTreePtr root = NULL;
+    time_t _time = 0;
+    srand(time(NULL));
+    for (uint8_t i = 0; i < 10; i++) {
+        InsertTree(&root, (int)(rand()%10));
+    }
+    printf("PreOrderTraverse:\n");
+    PreOrderTraverse(&root);
+    printf("InOrderTraverse:\n");
+    InOrderTraverse(&root);
+    printf("PostOrderTraverse:\n");
+    PostOrderTraverse(&root);
+#endif
 }
 
 /*

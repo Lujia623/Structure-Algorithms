@@ -10,11 +10,11 @@ typedef unsigned char uint8_t;
 typedef _Bool bool;
 typedef int ElemType;
 
+#define BIT(x)               (1 << x)
 
-
-#define true    (bool)1
-#define false   !true
-#define ENABLE  (bool)1
+#define true                 (bool)1
+#define false                !true
+#define ENABLE               (bool)1
 #define DISABLE !ENABLE
 
 

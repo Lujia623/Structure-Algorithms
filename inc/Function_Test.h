@@ -8,6 +8,7 @@
 #include "ADT_List.h"
 #include "STACK_QUEUE.h"
 #include "ADT_String.h"
+#include "ADT_Tree.h"
 
 void __attribute__((weak)) SequentialList_FunctionTest(void)
 {
@@ -34,8 +35,8 @@ void __attribute__((weak)) DoubleList_FunctionTest(void)
     printf("%s not reimplemented!!!\n",__FUNCTION__);
 }
 
-#define ADT_LIST_CLOSE  0
-#define ADT_LIST_OPEN   1
+//#define ADT_LIST_CLOSE  0
+//#define ADT_LIST_OPEN   1
 
 void Function_Test(void);
 
