@@ -25,8 +25,8 @@
 #define USE_CYCLE_LIST              BIT(3)               //动态链表(循环链表,单链表)
 #define USE_SEQUENTIAL_LIST         BIT(4)               //顺序表
 #define USE_DOUBLE_LIST             BIT(5)               //双向链表(循环链表)
-#define USE_ADT_LIST_WAYS           USE_STATIC_LIST | USE_MALLOC_LIST     \
-                                    | USE_CYCLE_LIST | USE_SEQUENTIAL_LIST | USE_DOUBLE_LIST
+#define USE_ADT_LIST_WAYS           (USE_STATIC_LIST | USE_MALLOC_LIST     \
+                                    | USE_CYCLE_LIST | USE_SEQUENTIAL_LIST | USE_DOUBLE_LIST)
 //#define USE_ADT_LIST_WAYS           ADT_LIST_CLOSE
 
 /**
@@ -68,7 +68,7 @@ typedef struct {
     int length;
 }SqList;
 
-#if (USE_ADT_LIST_WAYS == USE_MALLOC_LIST)
+#if USE_ADT_LIST_WAYS & USE_MALLOC_LIST
 
 /**
  * @brief Create a List Head object
@@ -187,7 +187,7 @@ void MallocList_FunctionTest(void);
 #endif
 
 ///单链表循环链表
-#if (USE_ADT_LIST_WAYS == USE_CYCLE_LIST)
+#if USE_ADT_LIST_WAYS & USE_CYCLE_LIST
 
 /**
  * @brief 初始化循环链表
@@ -244,7 +244,7 @@ void ShowCycleList(sList **iList);
 void CycleList_FunctionTest(void);
 #endif
 
-#if (USE_ADT_LIST_WAYS == USE_DOUBLE_LIST)
+#if USE_ADT_LIST_WAYS & USE_DOUBLE_LIST
 
 /**
  * @brief 创建双向链表(循环结构)
@@ -307,7 +307,7 @@ void ShowDoubleList(sDoubleList **iList);
 void DoubleList_FunctionTest(void);
 #endif
 
-#if (USE_ADT_LIST_WAYS == USE_STATIC_LIST)
+#if USE_ADT_LIST_WAYS & USE_STATIC_LIST
 
 /**
  * @brief Get the Idle Index object 获取备用静态链表下标
@@ -371,7 +371,7 @@ void ShowStaticList(StaticLinkList space);
 void StaticList_FunctionTest(void);
 #endif
 
-#if (USE_ADT_LIST_WAYS == USE_SEQUENTIAL_LIST)
+#if USE_ADT_LIST_WAYS & USE_SEQUENTIAL_LIST
 
 /**
  * @brief 创建顺序表顺序存储结构

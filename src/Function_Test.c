@@ -6,7 +6,7 @@
 static int Tower_of_Hanoi(int n,char x,char y,char z);
 void Function_Test(void)
 {
-#if ADT_LIST_CLOSE
+#if USE_ADT_LIST_WAYS == ADT_LIST_CLOSE
     printf("-------------ADT_List---------------\n");
     SequentialList_FunctionTest();
     CycleList_FunctionTest();
@@ -14,7 +14,13 @@ void Function_Test(void)
     StaticList_FunctionTest();
     DoubleList_FunctionTest();
 #endif
+
+#if USE_STACK_QUEUE_WAYS == ADT_STACK_QUEUE_CLOSE
+    printf("-------------STACK_QUEUE---------------\n");
     Stack_FunctionTest();
+    Queue_FunctionTest();
+#endif
+
     char str1[]="abcdssss";char str2[]="cds";
     int re = match_string(str1, str2, 0);
     printf("re:%d\n",re);
@@ -39,20 +45,7 @@ void Function_Test(void)
 //    Tower_of_Hanoi(4,'A','B','C');
     int index = Index_KMP(S,T,0);
     printf("index:%d\n",index);
-#if USE_ADT_TREE_WAYS == BINARY_TREE
-    BinaryTreePtr root = NULL;
-    time_t _time = 0;
-    srand(time(NULL));
-    for (uint8_t i = 0; i < 10; i++) {
-        InsertTree(&root, (int)(rand()%10));
-    }
-    printf("PreOrderTraverse:\n");
-    PreOrderTraverse(&root);
-    printf("InOrderTraverse:\n");
-    InOrderTraverse(&root);
-    printf("PostOrderTraverse:\n");
-    PostOrderTraverse(&root);
-#endif
+    BinaryTree_FunctionTest();
 }
 
 /*

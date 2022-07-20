@@ -35,6 +35,16 @@ void __attribute__((weak)) DoubleList_FunctionTest(void)
     printf("%s not reimplemented!!!\n",__FUNCTION__);
 }
 
+void __attribute__((weak)) Stack_FunctionTest(void)
+{
+    printf("%s not reimplemented!!!\n",__FUNCTION__);
+}
+
+void __attribute__((weak)) Queue_FunctionTest(void)
+{
+    printf("%s not reimplemented!!!\n",__FUNCTION__);
+}
+
 //#define ADT_LIST_CLOSE  0
 //#define ADT_LIST_OPEN   1
 

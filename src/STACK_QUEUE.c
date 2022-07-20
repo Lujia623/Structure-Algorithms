@@ -439,6 +439,11 @@ void InQueue(sLinkQueue* iLinkQueue,ElemType element)
     sQueueNode *new_node = NULL;
 
     new_node = (sQueueNode *) malloc(sizeof(sQueueNode));
+    if(NULL == new_node)
+    {
+        printf("%s in %d malloc failed!\n",__FUNCTION__,__LINE__);
+        return;
+    }
     memset(new_node, 0, sizeof(sQueueNode));
 
     if (QueueEmpty(*iLinkQueue))
@@ -467,11 +472,11 @@ void OutQueue(sLinkQueue* iLinkQueue,ElemType* element)
     }
     else
     {
-        delete_node = iLinkQueue->fifo_out;
+        delete_node = iLinkQueue->fifo_out->next;
         *element = iLinkQueue->fifo_out->data;
         iLinkQueue->fifo_in->next = iLinkQueue->fifo_out->next;
-        iLinkQueue->fifo_out = iLinkQueue->fifo_out->next;
-        free(delete_node);
+        free(iLinkQueue->fifo_out);
+        iLinkQueue->fifo_out = delete_node;
         iLinkQueue->length--;
     }
 }
@@ -518,6 +523,8 @@ bool QueueEmpty(sLinkQueue iLinkQueue)
 
 #elif USE_QUEUE_WAY == USE_SEQUENTIAL_QUEUE
 #endif
+
+#if USE_STACK_QUEUE_WAYS == USE_STACK_WAY
 void Stack_FunctionTest(void)
 {
 #if USE_STACK_WAY == USE_SEQUENTIAL_STACK
@@ -573,6 +580,12 @@ void Stack_FunctionTest(void)
     printf("Get:%d\n",GetTop(stack1));
     DestroyStack(&stack1);
 #endif
+}
+#endif
+
+#if USE_STACK_QUEUE_WAYS == USE_QUEUE_WAY
+void Queue_FunctionTest(void)
+{
     sLinkQueue queue1;
     ElemType data=0;
 
@@ -581,11 +594,7 @@ void Stack_FunctionTest(void)
     InQueue(&queue1,145);
     InQueue(&queue1,963);
     InQueue(&queue1,456);
-    struct test
-    {
-        int addr[6];
-    }t;
-    printf("string:%d\n", sizeof(t.addr));
+
     printf("data:%d\n",data);
     OutQueue(&queue1,&data);
     printf("data:%d\n",data);
@@ -594,5 +603,5 @@ void Stack_FunctionTest(void)
     OutQueue(&queue1,&data);
     printf("data:%d\n",data);
     printf("len:%d\n",queue1.length);
-//    printf("bool:%d\n",USE_STACK_WAY==USE_QUEUE_WAY);
 }
+#endif

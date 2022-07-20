@@ -4,7 +4,7 @@
 
 #include "ADT_Tree.h"
 
-#if USE_ADT_TREE_WAYS == BINARY_TREE
+#if USE_ADT_TREE_WAYS & BINARY_TREE
 
 void InsertTree(BinaryTreePtr *iTreeRoot, int idata)
 {
@@ -64,10 +64,135 @@ void PostOrderTraverse(BinaryTreePtr *iTreeRoot)
     printf("%d\n", (*iTreeRoot)->data);
 }
 
+/**
+ * @brief 初始化队列
+ * 
+ * @param iTreeQueue 入队出队指针架构
+ */
+static void InitTreeQueue(sTreeLinkQueue *iTreeQueue)
+{
+    iTreeQueue->fifo_in = iTreeQueue->fifo_out = NULL;
+}
+
+/**
+ * @brief 
+ * 
+ * @param iTreeQueue 入队出队指针架构
+ * @return true 队列为空
+ * @return false 队列非空
+ */
+static bool isTreeQueueEmpty(sTreeLinkQueue *iTreeQueue)
+{
+    return (iTreeQueue->fifo_out == NULL ? true : false);
+}
+
+/**
+ * @brief 入队列(循环队列,队列节点采用循环单向链表的形式)
+ * 
+ * @param iTreeQueue 入队出队指针架构
+ * @param iTreeNode 入队二叉树节点
+ */
+static void PushTreeQueue(sTreeLinkQueue *iTreeQueue,BinaryTreeNode iTreeNode)
+{
+    sTreeQueueNode *new_node = NULL;
+
+    new_node = (sTreeQueueNode *) malloc(sizeof(sTreeQueueNode));
+    if (NULL == new_node) {
+        printf("%s in %d malloc failed!\n", __FUNCTION__, __LINE__);
+        return;
+    }
+    memset(new_node, 0, sizeof(sTreeQueueNode));
+
+    if (isTreeQueueEmpty(iTreeQueue)) {
+        new_node->next = new_node;
+        iTreeQueue->fifo_out = iTreeQueue->fifo_in = new_node;
+    } else {
+        new_node->next = iTreeQueue->fifo_in->next;
+        iTreeQueue->fifo_in->next = new_node;
+        iTreeQueue->fifo_in = new_node;
+    }
+    new_node->treeNode = iTreeNode;
+}
+
+/**
+ * @brief 出队列
+ * 
+ * @param iTreeQueue 入队出队指针架构
+ */
+static void PopTreeQueue(sTreeLinkQueue *iTreeQueue)
+{
+    sTreeQueueNode *delete_node = NULL;
+
+    if (isTreeQueueEmpty(iTreeQueue)) {
+        printf("%s ERROR!\n", __FUNCTION__);
+        return;
+    }
+
+    if (iTreeQueue->fifo_in->next == iTreeQueue->fifo_out->next) {   //当只有一个节点时,pop后需要改变指向,赋值为 NULL
+        free(iTreeQueue->fifo_out);
+        iTreeQueue->fifo_out = iTreeQueue->fifo_in = NULL;
+    } else {
+        delete_node = iTreeQueue->fifo_out->next;
+        iTreeQueue->fifo_in->next = iTreeQueue->fifo_out->next;
+        free(iTreeQueue->fifo_out);
+        iTreeQueue->fifo_out = delete_node;
+    }
+}
+
+/**
+ * @brief Get the Tree Head object
+ * 
+ * @param iTreeQueue 入队出队指针架构
+ * @return sTreeQueueNode* 出队队列树指针
+ */
+static sTreeQueueNode *GetTreeHead(sTreeLinkQueue *iTreeQueue)
+{
+    if (isTreeQueueEmpty(iTreeQueue)) {
+        printf("%s ERROR!\n", __FUNCTION__);
+        return NULL;
+    }
+    return iTreeQueue->fifo_out;
+}
+
 void LayerOrderTraverse(BinaryTreePtr *iTreeRoot)
 {
-    if(NULL == (*iTreeRoot))
+    sTreeLinkQueue treeNodeLink;
+    sTreeQueueNode *TreeHeadNode = NULL;
+
+    if (NULL == (*iTreeRoot))
         return;
-    //struct
+    InitTreeQueue(&treeNodeLink);
+    PushTreeQueue(&treeNodeLink, **iTreeRoot);
+
+    while (!isTreeQueueEmpty(&treeNodeLink)) {
+        TreeHeadNode = GetTreeHead(&treeNodeLink);                      //先获取队列 Head元素
+        BinaryTreeNode TreeNode = TreeHeadNode->treeNode;
+        printf("%d\n", TreeHeadNode->treeNode.data);
+        PopTreeQueue(&treeNodeLink);                                    //出队列
+        if (TreeNode.left_node) {                                   //左子树节点不为空则入队列
+            PushTreeQueue(&treeNodeLink, *TreeNode.left_node);
+        }
+        if (TreeNode.right_node) {                                   //右子树节点不为空则入队列a
+            PushTreeQueue(&treeNodeLink, *TreeNode.right_node);
+        }
+    }
+}
+
+void BinaryTree_FunctionTest(void)
+{
+    BinaryTreePtr root = NULL;
+    time_t _time = 0;
+    srand(time(NULL));
+    for (uint8_t i = 0; i < 10; i++) {
+        InsertTree(&root, (int)(rand()%10));
+    }
+    printf("PreOrderTraverse:\n");
+    PreOrderTraverse(&root);
+    printf("InOrderTraverse:\n");
+    InOrderTraverse(&root);
+    printf("PostOrderTraverse:\n");
+    PostOrderTraverse(&root);
+    printf("LayerOrderTraverse:\n");
+    LayerOrderTraverse(&root);
 }
 #endif

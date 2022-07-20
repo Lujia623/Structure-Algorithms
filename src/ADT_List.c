@@ -3,7 +3,7 @@
 //
 #include "ADT_List.h"
 
-#if USE_ADT_LIST_WAYS == USE_SEQUENTIAL_LIST
+#if USE_ADT_LIST_WAYS & USE_SEQUENTIAL_LIST
 
 /*顺序表顺序存储*/
 void CreatSequentialList(SqList *iList, int len)
@@ -63,7 +63,7 @@ void SequentialList_FunctionTest(void)
 
 #endif
 
-#if USE_ADT_LIST_WAYS == USE_MALLOC_LIST
+#if USE_ADT_LIST_WAYS & USE_MALLOC_LIST
 
 bool InitList(sList** iList)
 {
@@ -451,7 +451,8 @@ void MallocList_FunctionTest(void)
     printf("find same\n");
     sList *lsame=GetSameElement(NewList1,5);
     ShowList(&lsame);
-    printf("find same:%p\n",lsame->next);
+    if(lsame)
+        printf("find same:%p\n",lsame->next);
     int n;
     CreateListTail(&NewList3,20);
     printf("---------\n");
@@ -462,7 +463,7 @@ void MallocList_FunctionTest(void)
 
 #endif
 
-#if USE_ADT_LIST_WAYS == USE_CYCLE_LIST
+#if USE_ADT_LIST_WAYS & USE_CYCLE_LIST
 
 static sList *head=NULL,*rear=NULL;
 
@@ -683,7 +684,7 @@ void CycleList_FunctionTest(void)
 
 #endif
 
-#if USE_ADT_LIST_WAYS == USE_DOUBLE_LIST
+#if USE_ADT_LIST_WAYS & USE_DOUBLE_LIST
 
 static bool InitDoubleList(sDoubleList** iList)
 {
@@ -893,7 +894,7 @@ void DoubleList_FunctionTest(void)
 
 #endif
 
-#if USE_ADT_LIST_WAYS == USE_STATIC_LIST
+#if USE_ADT_LIST_WAYS & USE_STATIC_LIST
 
 void InitStaticLinkList(StaticLinkList space)
 {

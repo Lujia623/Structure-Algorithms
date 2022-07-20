@@ -18,7 +18,8 @@
 #define PARENTS_CHILDS_WAYS  BIT(1)          //数的双亲表示法
 #define BINARY_TREE          BIT(2)          //二叉树
 
-#define USE_ADT_TREE_WAYS    PARENTS_CHILDS_WAYS | BINARY_TREE
+#define USE_ADT_TREE_WAYS    (PARENTS_CHILDS_WAYS | BINARY_TREE)
+//#define USE_ADT_TREE_WAYS    ADT_TREE_CLOSE
 
 #if (USE_ADT_TREE_WAYS == PARENTS_CHILDS_WAYS)
 #define MAX_TREE_SIZE   100
@@ -36,11 +37,21 @@ typedef struct {
 } CTree;
 #endif
 
-#if (USE_ADT_TREE_WAYS == BINARY_TREE)
+#if USE_ADT_TREE_WAYS & BINARY_TREE
 typedef struct Binary_Node {
     int data;                                        //二叉树的节点数据域
     struct Binary_Node *left_node, *right_node;      //二叉树左右孩子指针
 } BinaryTreeNode, *BinaryTreePtr;                   //BinaryTreeNode:节点,BinaryTreePtr:头指针
+
+/*构建二叉树层序遍历架构,循环队列,单向循环链表*/
+typedef struct TreeQueueNode {
+    BinaryTreeNode treeNode;
+    struct TreeQueueNode *next;
+} sTreeQueueNode;
+typedef struct TreeLinkQueue {
+    sTreeQueueNode *fifo_in;
+    sTreeQueueNode *fifo_out;
+} sTreeLinkQueue;
 
 /**
  * @brief 二叉树插入操作
@@ -71,7 +82,18 @@ void InOrderTraverse(BinaryTreePtr *iTreeRoot);
  */
 void PostOrderTraverse(BinaryTreePtr *iTreeRoot);
 
+/**
+ * @brief 二叉树遍历---------->层次遍历
+ * 
+ * @param iTreeRoot 指向根节点
+ */
 void LayerOrderTraverse(BinaryTreePtr *iTreeRoot);
+
+/**
+ * @brief 二叉树测试接口
+ * 
+ */
+void BinaryTree_FunctionTest(void);
 #endif
 
 #endif //CLION_ADT_TREE_H

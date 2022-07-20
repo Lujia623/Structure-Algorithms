@@ -29,6 +29,8 @@
 
 #define USE_STACK_WAY     USE_MOLLOC_STACK
 #define USE_QUEUE_WAY     USE_LIST_CYCLE_QUEUE
+#define USE_STACK_QUEUE_WAYS   (USE_STACK_WAY | USE_QUEUE_WAY)
+// #define USE_STACK_QUEUE_WAYS   ADT_STACK_QUEUE_CLOSE
 #define STACK_MAX_SIZE    100
 
 typedef struct statck
@@ -326,5 +328,11 @@ bool QueueEmpty(sLinkQueue iLinkQueue);
  * 
  */
 void Stack_FunctionTest(void);
+
+/**
+ * @brief 队列测试接口
+ * 
+ */
+void Queue_FunctionTest(void);
 
 #endif //CLION_STACK_QUEUE_H
