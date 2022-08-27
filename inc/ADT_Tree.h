@@ -14,11 +14,12 @@
 
 #pragma pack(4)
 
-#define ADT_TREE_CLOSE       BIT(0)           //关闭所有
-#define PARENTS_CHILDS_WAYS  BIT(1)          //数的双亲表示法
-#define BINARY_TREE          BIT(2)          //二叉树
+#define ADT_TREE_CLOSE                  BIT(0)           //关闭所有
+#define PARENTS_CHILDS_WAYS             BIT(1)          //数的双亲表示法
+#define BINARY_TREE                     BIT(2)          //二叉树
+#define THREADED_BINARY_TREE            BIT(3)          //线索二叉树
 
-#define USE_ADT_TREE_WAYS    (PARENTS_CHILDS_WAYS | BINARY_TREE)
+#define USE_ADT_TREE_WAYS    (PARENTS_CHILDS_WAYS | BINARY_TREE |THREADED_BINARY_TREE)
 //#define USE_ADT_TREE_WAYS    ADT_TREE_CLOSE
 
 #if (USE_ADT_TREE_WAYS == PARENTS_CHILDS_WAYS)
@@ -94,6 +95,13 @@ void LayerOrderTraverse(BinaryTreePtr *iTreeRoot);
  * 
  */
 void BinaryTree_FunctionTest(void);
+#endif
+
+#if USE_ADT_TREE_WAYS & THREADED_BINARY_TREE
+typedef struct ThreadedBinaryTree_Node{
+    ElemType data;                                                       //线索二叉树数据域
+    struct ThreadedBinaryTree_Node *left_node,*right_node;              //线索二叉树左右孩子节点
+};
 #endif
 
 #endif //CLION_ADT_TREE_H
