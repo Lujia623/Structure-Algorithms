@@ -36,7 +36,7 @@ typedef struct {
     CTBox nodes[MAX_TREE_SIZE];       //节点数组
     int r, n;                        //根的位置和节点数
 } CTree;
-#endif
+#endif /*PARENTS_CHILDS_WAYS*/
 
 #if USE_ADT_TREE_WAYS & BINARY_TREE
 typedef struct Binary_Node {
@@ -95,13 +95,106 @@ void LayerOrderTraverse(BinaryTreePtr *iTreeRoot);
  * 
  */
 void BinaryTree_FunctionTest(void);
-#endif
+
+/**
+ * @brief 使用递归方式删除二叉树并释放空间(方式类似于后续遍历)
+ * 
+ * @param iTreeRoot 指向根节点
+ */
+void BinaryTree_delete(BinaryTreePtr *iTreeRoot);
+#endif /*USE_ADT_TREE_WAYS & BINARY_TREE*/
 
 #if USE_ADT_TREE_WAYS & THREADED_BINARY_TREE
-typedef struct ThreadedBinaryTree_Node{
+typedef enum pointTag {
+    LINK,               //表示左右孩子
+    THREAD              //表示前驱后继节点
+} ePointerTag;
+
+typedef struct ThreadedBinaryTree_Node {
     ElemType data;                                                       //线索二叉树数据域
     struct ThreadedBinaryTree_Node *left_node,*right_node;              //线索二叉树左右孩子节点
-};
-#endif
+    ePointerTag left_tag;
+    ePointerTag right_tag;
+} sThreadedBinaryTree_Node, *sThreadedBinaryTreePtr;
+
+/**
+ * @brief 前序遍历创建二叉树
+ * 
+ * @param iTreeRoot 二叉树线索化结构
+ * @param value 二叉树节点数据域值
+ */
+void ThreadBinaryTree_Init(sThreadedBinaryTreePtr *iTreeRoot, int *value);
+
+/**
+ * @brief 二叉树线索化,中序遍历(第一个节点的前驱节点和最后一个节点的后继节点指向NULL)
+ * 
+ * @param iTreeRoot 二叉树线索化结构
+ */
+void InThreadedBinaryTree(sThreadedBinaryTreePtr *iTreeRoot);
+
+/**
+ * @brief 二叉树线索化,中序遍历(第一个节点的前驱节点和最后一个节点的后继节点指向根节点(*iTreeRoot))
+ * 
+ * @param iTreeRoot 二叉树线索化结构
+ * @param head_node 头结点
+ */
+void InThreadedBinaryTreeThreading(sThreadedBinaryTreePtr *iTreeRoot, sThreadedBinaryTreePtr *head_node);
+
+/**
+ * @brief 循环遍历
+ * 
+ * @param head_node 线索二叉树头结点
+ */
+void InOrderTraverse_Thread(sThreadedBinaryTreePtr *head_node);
+
+/**
+ * @brief Get the Precursor Node object(查找当前节点的前驱节点)
+ * 
+ * @param iTreeRoot 要查找的节点
+ * @return sThreadedBinaryTreePtr 返回当前节点的前驱节点
+ */
+sThreadedBinaryTreePtr getPrecursorNode(sThreadedBinaryTreePtr iTreeRoot);
+
+/**
+ * @brief Get the Successor Node object(查找当前节点的后继节点)
+ * 
+ * @param iTreeRoot 要查找的节点
+ * @return sThreadedBinaryTreePtr 返回当前节点的后继节点
+ */
+sThreadedBinaryTreePtr getSuccessorNode(sThreadedBinaryTreePtr iTreeRoot);
+
+/**
+ * @brief 判定当前节点左域是否指向前驱
+ * 
+ * @param iTreeRoot 二叉树线索化结构
+ * @return true 当前节点的左域指向前驱
+ * @return false 当前节点的左域指向左孩子
+ */
+bool isPrecursorNode(sThreadedBinaryTreePtr iTreeRoot);
+
+/**
+ * @brief 判定当前节点右域是否指向后继
+ * 
+ * @param iTreeRoot 二叉树线索化结构
+ * @return true 当前节点的右域指向后继
+ * @return false 当前节点的右域指向右孩子
+ */
+bool isSuccessorNode(sThreadedBinaryTreePtr iTreeRoot);
+
+/**
+ * @brief 采用后序遍历方式删除线索二叉树(和InThreadedBinaryTree接口联合使用,若是含有头结点不会删除头结点)
+ * 
+ * @param iTreeRoot 线索二叉树的根节点
+ */
+void ThreadedBinaryTree_delete(sThreadedBinaryTreePtr *iTreeRoot);
+
+/**
+ * @brief 采用循环遍历的方式删除二叉树(和InThreadedBinaryTreeThreading接口联合使用,会删除头结点)
+ * 
+ * @param head_node 线索二叉树的头节点
+ */
+void ThreadBinaryTree_destroy(sThreadedBinaryTreePtr *head_node);
+
+#endif /*USE_ADT_TREE_WAYS & THREADED_BINARY_TREE*/
 
 #endif //CLION_ADT_TREE_H
